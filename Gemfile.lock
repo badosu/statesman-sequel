@@ -1,0 +1,40 @@
+PATH
+  remote: .
+  specs:
+    statesman-sequel (0.1.0)
+      sequel (~> 4.0)
+      statesman (~> 2.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    coderay (1.1.1)
+    method_source (0.8.2)
+    minitest (5.10.1)
+    minitest-hooks (1.4.0)
+    pry (0.10.4)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    rake (10.5.0)
+    rb-readline (0.5.3)
+    sequel (4.41.0)
+    slop (3.6.0)
+    sqlite3 (1.3.12)
+    statesman (2.0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.11)
+  minitest (~> 5.0)
+  minitest-hooks
+  pry
+  rake (~> 10.0)
+  rb-readline
+  sqlite3 (~> 1.3)
+  statesman-sequel!
+
+BUNDLED WITH
+   1.12.5
