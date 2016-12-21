@@ -92,7 +92,7 @@ module Sequel
           state_machine.last_transition(*args)
         end
 
-        def state_machine_history(*args)
+        def state_history(*args)
           state_machine.history(*args)
         end
 

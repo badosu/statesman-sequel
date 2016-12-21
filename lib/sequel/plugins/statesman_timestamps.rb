@@ -7,6 +7,10 @@ module Sequel
         create: :created_at
       }
 
+      def self.configure!(opts=OPTS)
+        DEFAULTS.merge!(opts)
+      end
+
       def self.configure(model, opts=OPTS)
         opts = DEFAULTS.merge(opts)
 
