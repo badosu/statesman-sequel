@@ -42,15 +42,15 @@ describe "Sequel::Plugins::Statesman" do
     user.registered?.must_equal true
   end
 
-  it "defines Model#state_machine_history" do
+  it "defines Model#state_history" do
     user = User.create(name: "John")
 
     state_machine = user_machine(user)
     state_machine.transition_to!("registered")
     state_machine.transition_to!("blocked")
 
-    user.state_machine_history.must_equal user.state_machine.history
-    user.state_machine_history.must_equal UserTransition.order(:sort_key).all
+    user.state_history.must_equal user.state_machine.history
+    user.state_history.must_equal UserTransition.order(:sort_key).all
   end
 
   it "overrides Model#refresh" do

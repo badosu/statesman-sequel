@@ -50,7 +50,7 @@ class User < Sequel::Model
 end
 ```
 
-Creating user\_transitions table:
+Create your transitions table:
 
 ```ruby
 Sequel.migration do
@@ -80,6 +80,14 @@ Sequel.migration do
 end
 ```
 
+## JSON Column
+
+If you want to use your database support for json on the `metadata` column,
+just don't include `SequelTransition` on your transition model and also
+perform the adjusts on the migration.
+
+For Postgres check the [pg\_json extension](http://sequel.jeremyevans.net/rdoc-plugins/files/lib/sequel/extensions/pg_json_rb.html).
+
 ## Sequel Plugin
 
 You will perform the same configuration above, except for the model:
@@ -93,7 +101,7 @@ end
 The following methods will be delegated to the state machine:
 
 - `#current_state`
-- `#state_machine_history`
+- `#state_history`
 - `#last_transition`
 
 The following methods will be defined on your model:
@@ -102,9 +110,8 @@ The following methods will be defined on your model:
 - `#state_machine`
 - `#state_name?` method for each state on your state machine
 - `#state_name!(metadata={})` method for each state on your state machine.
-- `#state_machine_history`
-- `#transition_metadata`
-- `#merge_transition_metadata(metadata)`
+- `#transition_metadata` last metadata available
+- `#merge_transition_metadata(metadata)` update last metadata available
 - `#refresh` overriden to also reload your states
 
 ### Configuration
@@ -129,20 +136,41 @@ Sequel::Plugins::Statesman.configure!({
 The defaults are:
 
 ```ruby
-define_state_methods: true, # If defines #state! and #state? methods
-destroy_transitions: true, # If the transitions are automatically destroyed when the parent instance is destroyed
-include_queries: true, # If SequelQueries is automatically included
-transition_class: ->(model) { "#{model.name}Transition".constantize }, # The transition class for the model
-state_machine_class: ->(model) { "#{model.name}StateMachine".constantize } # The state machine for the model
+{
+  # Define #state! and #state? methods
+  define_state_methods: true,
+  # Transitions are automatically destroyed when the parent instance is destroyed
+  destroy_transitions: true,
+  # Include SequelQueries automatically
+  include_queries: true,
+  # The transition class for the model
+  transition_class: ->(model) { "#{model.name}Transition".constantize },
+  # The state machine for the model
+  state_machine_class: ->(model) { "#{model.name}StateMachine".constantize }
+}
 ```
 
 ### Sequel Timestamps
 
 If your transition classes use the timestamps plugin you may include
-the `statesman_timestamps` plugin to add the following DataSetMethods:
+the `statesman_timestamps` plugin to add the following `DatasetMethods`:
 
-- `.state_changed_after(date)` to filter records by date of last transition
-- `.state_changed_before(date)` to filter records by date of last transition
+- `.state_changed_after(date)` to filter records after the last transition
+- `.state_changed_before(date)` to filter records before the last transition
+
+You may configure the columns to be used, (default `created_at`):
+
+```ruby
+plugin :statesman_timestamps, created: :creation_date
+
+# or globally
+require 'sequel/plugins/statesman_timestamps'
+Sequel::Plugins::StatesmanTimestamps.configure! created: :creation_date
+```
+
+## Credit
+
+This gem was born from [this PR](https://github.com/gocardless/statesman/pull/152) from [@appleton](https://github.com/appleton). Thanks!
 
 ## Contributing
 
