@@ -1,6 +1,6 @@
 # Sequel Statesman
 
-Ships Sequel adapter and a Sequel plugin for Statesman
+Ships [Sequel](https://github.com/jeremyevans/sequel) adapters and plugins for [Statesman](https://github.com/gocardless/statesman)
 
 ## Regular Configuration
 
