@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     statesman-sequel (0.1.0)
-      sequel (~> 5.0)
-      statesman (~> 3.4)
+      sequel (>= 4, < 6)
+      statesman (>= 3.4, < 4)
 
 GEM
   remote: https://rubygems.org/
